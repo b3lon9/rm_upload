@@ -55,9 +55,9 @@ namespace TKM_UPLOAD
             // button1
             // 
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(415, 471);
+            this.button1.Location = new System.Drawing.Point(400, 462);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 41);
+            this.button1.Size = new System.Drawing.Size(120, 50);
             this.button1.TabIndex = 0;
             this.button1.Text = "시작";
             this.button1.UseVisualStyleBackColor = true;
@@ -99,13 +99,13 @@ namespace TKM_UPLOAD
             // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.Color.Transparent;
+            this.button2.BackColor = System.Drawing.Color.SeaShell;
             this.button2.Location = new System.Drawing.Point(16, 25);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(84, 34);
             this.button2.TabIndex = 0;
             this.button2.Text = "TEST";
-            this.button2.UseVisualStyleBackColor = false;
+            this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.server_button_Click);
             // 
             // groupBox2
@@ -149,7 +149,7 @@ namespace TKM_UPLOAD
             this.groupBox3.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox3.Location = new System.Drawing.Point(12, 126);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(280, 219);
+            this.groupBox3.Size = new System.Drawing.Size(297, 219);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "업로드 파일";
@@ -162,7 +162,7 @@ namespace TKM_UPLOAD
             this.listBox1.ItemHeight = 16;
             this.listBox1.Location = new System.Drawing.Point(6, 29);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(268, 180);
+            this.listBox1.Size = new System.Drawing.Size(285, 180);
             this.listBox1.TabIndex = 2;
             this.listBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.upload_file_listBox_DragDrop);
             this.listBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.upload_file_listBox_DragEnter);
@@ -170,7 +170,7 @@ namespace TKM_UPLOAD
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button8.Location = new System.Drawing.Point(194, 0);
+            this.button8.Location = new System.Drawing.Point(211, 0);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(80, 23);
             this.button8.TabIndex = 1;
@@ -180,9 +180,9 @@ namespace TKM_UPLOAD
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(415, 424);
+            this.button7.Location = new System.Drawing.Point(400, 405);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(105, 41);
+            this.button7.Size = new System.Drawing.Size(120, 50);
             this.button7.TabIndex = 0;
             this.button7.Text = "준비완료";
             this.button7.UseVisualStyleBackColor = true;
@@ -194,9 +194,9 @@ namespace TKM_UPLOAD
             this.groupBox4.Controls.Add(this.button9);
             this.groupBox4.Controls.Add(this.listBox2);
             this.groupBox4.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.groupBox4.Location = new System.Drawing.Point(298, 126);
+            this.groupBox4.Location = new System.Drawing.Point(315, 126);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(222, 219);
+            this.groupBox4.Size = new System.Drawing.Size(205, 219);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "버전 파일";
@@ -204,7 +204,7 @@ namespace TKM_UPLOAD
             // button9
             // 
             this.button9.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button9.Location = new System.Drawing.Point(136, 0);
+            this.button9.Location = new System.Drawing.Point(119, 0);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(80, 23);
             this.button9.TabIndex = 1;
@@ -220,7 +220,7 @@ namespace TKM_UPLOAD
             this.listBox2.ItemHeight = 16;
             this.listBox2.Location = new System.Drawing.Point(6, 29);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(210, 180);
+            this.listBox2.Size = new System.Drawing.Size(193, 180);
             this.listBox2.TabIndex = 0;
             this.listBox2.DragDrop += new System.Windows.Forms.DragEventHandler(this.upload_ver_file_listBox_DragDrop);
             this.listBox2.DragEnter += new System.Windows.Forms.DragEventHandler(this.upload_file_listBox_DragEnter);
@@ -241,8 +241,11 @@ namespace TKM_UPLOAD
             this.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.HelpButton = true;
+            this.HelpButtonClicked += Tool_HelpButtonClicked;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Tool";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TKM_UPLOAD";

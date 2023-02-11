@@ -21,6 +21,7 @@ namespace TKM_UPLOAD
         // UI
         private Color SelectedColor = Color.Tomato;
         private string FileBeforePath = "%USER_HOME%/";     // 재클릭시 이전 폴더가 표출되도록
+        private string Caption = "";
 
         public Tool()
         {
@@ -149,7 +150,7 @@ namespace TKM_UPLOAD
             {
                 // listBox1.Items.Add(file);
                 listBox2.Items.Add(Path.GetFileName(file));
-                mUploadFiles.Add(file);
+                mUploadVerFiles.Add(file);
             }
         }
 
@@ -170,20 +171,48 @@ namespace TKM_UPLOAD
         // Upload Ready Button
         private void ready_button_click(object sender, EventArgs e)
         {
-            foreach (var item in mUploadFiles)
+            if (mServerType == null)
             {
-                Console.WriteLine(item);
+                MessageBox.Show("서버를 선택하세요", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            else if (mCategory == null)
+            {
+                MessageBox.Show("파일유형을 선택하세요", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (mUploadFiles.Count == 0)
+            {
+                MessageBox.Show("업로드할 파일이 없습니다", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (mUploadVerFiles.Count == 0)
+            {
+                MessageBox.Show("업로드할 버전파일 없습니다", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            /*else if (button1.Enabled)
+            {
+                MessageBox.Show("수정사항 문의\nb3xlon9@gmail.com", Caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }*/
+            else
+            {
+                DialogResult dialogResult = MessageBox.Show("업로드 준비가 완료되었습니다", Caption, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (dialogResult == DialogResult.OK)
+                {
+                    foreach (var item in mUploadFiles)
+                    {
+                        Console.WriteLine(item);
+                    }
 
-            ClearFocus();
-            // if all complete
-            button1.Enabled = true;
+                    ClearFocus();
+                    // if all complete
+                    button1.Enabled = true;
+                }
+            }
         }
 
         // Upload Start Button
         private void upload_button_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Button Click Current server : {0}", mServerType);
+            UIEnabled(false);
             ClearFocus();
         }
 
@@ -192,6 +221,20 @@ namespace TKM_UPLOAD
         private void ClearFocus()
         {
             listBox1.Focus();
+        }
+
+        private void UIEnabled(bool enabled)
+        {
+            groupBox1.Enabled = enabled;
+            groupBox2.Enabled = enabled;
+            groupBox3.Enabled = enabled;
+            groupBox4.Enabled = enabled;
+        }
+
+        private void Tool_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBox.Show("수정사항 문의\nb3xlon9@gmail.com", Caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            e.Cancel = true;
         }
     }
 }
