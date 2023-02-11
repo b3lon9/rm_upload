@@ -15,54 +15,73 @@ namespace TKM_UPLOAD
     public partial class Tool : Form
     {
         // Data
-        private string mServer = "TEST/";
-        
+        private string mServerType = Server.Type.TEST;
+        private string mCategory   = Server.Category.Program;
+
+        private Button ServerTypeBtn = null;    // 서버선택
+        private Button CategoryBtn   = null;    // 유형선택
+
         // UI
-        private Button beforeServerBtn = null;      // 버튼 토글 용도
+        private Color SelectedColor = Color.Tomato;
 
         public Tool()
         {
             InitializeComponent();
         }
         
-        private void Tool_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         // Upload Start Button
-        private void button1_Click(object sender, EventArgs e)
+        private void upload_button_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Button Click Current server : {0}", mServer);
+            Console.WriteLine("Button Click Current server : {0}", mServerType);
         }
 
         // Server Select Button
-        private void button_Click(object sender, EventArgs e)
+        private void server_button_Click(object sender, EventArgs e)
         {
-            if (beforeServerBtn == null)
+            if (ServerTypeBtn == null)
             {
-                beforeServerBtn = (Button)sender;
+                ServerTypeBtn = (Button)sender;
             } 
             else
             {
-                beforeServerBtn.BackColor = Color.Transparent;
-                beforeServerBtn = (Button)sender;
+                ServerTypeBtn.BackColor = Color.Transparent;
+                ServerTypeBtn = (Button)sender;
             }
 
-            switch (beforeServerBtn.Text)
+            switch (ServerTypeBtn.Text)
             {
                 case "TEST":
-                    mServer = Server.Name.TEST;
+                    mServerType = Server.Type.TEST;
                     break;
                 case "BETA":
-                    mServer = Server.Name.BETA;
+                    mServerType = Server.Type.BETA;
                     break;
                 case "REAL":
-                    mServer = Server.Name.REAL;
+                    mServerType = Server.Type.REAL;
                     break;
             }
             
-            beforeServerBtn.BackColor = Color.Peru;
+            ServerTypeBtn.BackColor = SelectedColor;
+        }
+
+        // Type Select Button
+        private void type_button_Click(object sender, EventArgs e)
+        {
+            if (CategoryBtn != null)
+            {
+                CategoryBtn.BackColor = Color.Transparent;
+            }
+            CategoryBtn = (Button)sender;
+
+            if (CategoryBtn == button5)
+            {
+                mCategory = Server.Category.Program;
+            }
+            else
+            {
+                mCategory = Server.Category.Image;
+            }
+            CategoryBtn.BackColor = SelectedColor;
         }
     }
 }
