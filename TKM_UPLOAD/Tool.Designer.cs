@@ -43,13 +43,18 @@ namespace TKM_UPLOAD
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button9 = new System.Windows.Forms.Button();
+            this.listBox2 = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(415, 471);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(105, 41);
@@ -153,6 +158,7 @@ namespace TKM_UPLOAD
             // 
             this.listBox1.AllowDrop = true;
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 16;
             this.listBox1.Location = new System.Drawing.Point(6, 29);
             this.listBox1.Name = "listBox1";
@@ -164,11 +170,11 @@ namespace TKM_UPLOAD
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button8.Location = new System.Drawing.Point(185, 0);
+            this.button8.Location = new System.Drawing.Point(194, 0);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(89, 23);
+            this.button8.Size = new System.Drawing.Size(80, 23);
             this.button8.TabIndex = 1;
-            this.button8.Text = "파일업로드";
+            this.button8.Text = "업로드";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.upload_file_button_Click);
             // 
@@ -182,6 +188,43 @@ namespace TKM_UPLOAD
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.ready_button_click);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.BackColor = System.Drawing.Color.SeaShell;
+            this.groupBox4.Controls.Add(this.button9);
+            this.groupBox4.Controls.Add(this.listBox2);
+            this.groupBox4.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox4.Location = new System.Drawing.Point(298, 126);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(222, 219);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "버전 파일";
+            // 
+            // button9
+            // 
+            this.button9.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button9.Location = new System.Drawing.Point(136, 0);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(80, 23);
+            this.button9.TabIndex = 1;
+            this.button9.Text = "업로드";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.upload_ver_file_button_Click);
+            // 
+            // listBox2
+            // 
+            this.listBox2.AllowDrop = true;
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.HorizontalScrollbar = true;
+            this.listBox2.ItemHeight = 16;
+            this.listBox2.Location = new System.Drawing.Point(6, 29);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(210, 180);
+            this.listBox2.TabIndex = 0;
+            this.listBox2.DragDrop += new System.Windows.Forms.DragEventHandler(this.upload_ver_file_listBox_DragDrop);
+            this.listBox2.DragEnter += new System.Windows.Forms.DragEventHandler(this.upload_file_listBox_DragEnter);
+            // 
             // Tool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 12F);
@@ -189,6 +232,7 @@ namespace TKM_UPLOAD
             this.BackColor = System.Drawing.Color.PeachPuff;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(532, 524);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button7);
@@ -205,6 +249,7 @@ namespace TKM_UPLOAD
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -223,6 +268,9 @@ namespace TKM_UPLOAD
         private Button button8;
         private Button button7;
         private ListBox listBox1;
+        private GroupBox groupBox4;
+        private Button button9;
+        private ListBox listBox2;
     }
 }
 
