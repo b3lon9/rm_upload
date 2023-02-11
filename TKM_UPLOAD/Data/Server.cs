@@ -11,5 +11,13 @@ namespace TKM_UPLOAD.Data
         public static String URL_TEST = "";
         public static String URL_BETA = "";
         public static String URL_REAL = "";
+
+        // version
+        public class Name
+        {
+            public static string TEST = "TEST/";
+            public static string BETA = "BETA/";
+            public static string REAL = "REAL/";
+        }
     }
 }
