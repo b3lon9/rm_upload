@@ -31,44 +31,47 @@ namespace TKM_UPLOAD
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tool));
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_start = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btn_type_real = new System.Windows.Forms.Button();
+            this.btn_type_beta = new System.Windows.Forms.Button();
+            this.btn_type_test = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btn_category_image = new System.Windows.Forms.Button();
+            this.btn_category_program = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.btn_upload_file = new System.Windows.Forms.Button();
+            this.btn_ready = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button9 = new System.Windows.Forms.Button();
+            this.btn_upload_file_ver = new System.Windows.Forms.Button();
             this.listBox2 = new System.Windows.Forms.ListBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // btn_start
             // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(400, 462);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 50);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "시작";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.upload_button_Click);
+            this.btn_start.Enabled = false;
+            this.btn_start.Location = new System.Drawing.Point(400, 462);
+            this.btn_start.Name = "btn_start";
+            this.btn_start.Size = new System.Drawing.Size(120, 50);
+            this.btn_start.TabIndex = 0;
+            this.btn_start.Text = "시작";
+            this.btn_start.UseVisualStyleBackColor = true;
+            this.btn_start.Click += new System.EventHandler(this.upload_button_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.SeaShell;
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.btn_type_real);
+            this.groupBox1.Controls.Add(this.btn_type_beta);
+            this.groupBox1.Controls.Add(this.btn_type_test);
             this.groupBox1.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox1.Location = new System.Drawing.Point(12, 28);
             this.groupBox1.Name = "groupBox1";
@@ -77,42 +80,42 @@ namespace TKM_UPLOAD
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "서버선택";
             // 
-            // button4
+            // btn_type_real
             // 
-            this.button4.Location = new System.Drawing.Point(196, 25);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(84, 34);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "REAL";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.server_button_Click);
+            this.btn_type_real.Location = new System.Drawing.Point(196, 25);
+            this.btn_type_real.Name = "btn_type_real";
+            this.btn_type_real.Size = new System.Drawing.Size(84, 34);
+            this.btn_type_real.TabIndex = 2;
+            this.btn_type_real.Text = "REAL";
+            this.btn_type_real.UseVisualStyleBackColor = true;
+            this.btn_type_real.Click += new System.EventHandler(this.server_button_Click);
             // 
-            // button3
+            // btn_type_beta
             // 
-            this.button3.Location = new System.Drawing.Point(106, 25);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(84, 34);
-            this.button3.TabIndex = 1;
-            this.button3.Text = "BETA";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.server_button_Click);
+            this.btn_type_beta.Location = new System.Drawing.Point(106, 25);
+            this.btn_type_beta.Name = "btn_type_beta";
+            this.btn_type_beta.Size = new System.Drawing.Size(84, 34);
+            this.btn_type_beta.TabIndex = 1;
+            this.btn_type_beta.Text = "BETA";
+            this.btn_type_beta.UseVisualStyleBackColor = true;
+            this.btn_type_beta.Click += new System.EventHandler(this.server_button_Click);
             // 
-            // button2
+            // btn_type_test
             // 
-            this.button2.BackColor = System.Drawing.Color.SeaShell;
-            this.button2.Location = new System.Drawing.Point(16, 25);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(84, 34);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "TEST";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.server_button_Click);
+            this.btn_type_test.BackColor = System.Drawing.Color.SeaShell;
+            this.btn_type_test.Location = new System.Drawing.Point(16, 25);
+            this.btn_type_test.Name = "btn_type_test";
+            this.btn_type_test.Size = new System.Drawing.Size(84, 34);
+            this.btn_type_test.TabIndex = 0;
+            this.btn_type_test.Text = "TEST";
+            this.btn_type_test.UseVisualStyleBackColor = true;
+            this.btn_type_test.Click += new System.EventHandler(this.server_button_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.SeaShell;
-            this.groupBox2.Controls.Add(this.button6);
-            this.groupBox2.Controls.Add(this.button5);
+            this.groupBox2.Controls.Add(this.btn_category_image);
+            this.groupBox2.Controls.Add(this.btn_category_program);
             this.groupBox2.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox2.Location = new System.Drawing.Point(315, 28);
             this.groupBox2.Name = "groupBox2";
@@ -121,31 +124,31 @@ namespace TKM_UPLOAD
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "유형선택";
             // 
-            // button6
+            // btn_category_image
             // 
-            this.button6.Location = new System.Drawing.Point(106, 25);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(84, 34);
-            this.button6.TabIndex = 4;
-            this.button6.Text = "이미지";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.type_button_Click);
+            this.btn_category_image.Location = new System.Drawing.Point(106, 25);
+            this.btn_category_image.Name = "btn_category_image";
+            this.btn_category_image.Size = new System.Drawing.Size(84, 34);
+            this.btn_category_image.TabIndex = 4;
+            this.btn_category_image.Text = "이미지";
+            this.btn_category_image.UseVisualStyleBackColor = true;
+            this.btn_category_image.Click += new System.EventHandler(this.type_button_Click);
             // 
-            // button5
+            // btn_category_program
             // 
-            this.button5.Location = new System.Drawing.Point(16, 25);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(84, 34);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "프로그램";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.type_button_Click);
+            this.btn_category_program.Location = new System.Drawing.Point(16, 25);
+            this.btn_category_program.Name = "btn_category_program";
+            this.btn_category_program.Size = new System.Drawing.Size(84, 34);
+            this.btn_category_program.TabIndex = 3;
+            this.btn_category_program.Text = "프로그램";
+            this.btn_category_program.UseVisualStyleBackColor = true;
+            this.btn_category_program.Click += new System.EventHandler(this.type_button_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.SeaShell;
             this.groupBox3.Controls.Add(this.listBox1);
-            this.groupBox3.Controls.Add(this.button8);
+            this.groupBox3.Controls.Add(this.btn_upload_file);
             this.groupBox3.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox3.Location = new System.Drawing.Point(12, 126);
             this.groupBox3.Name = "groupBox3";
@@ -167,31 +170,31 @@ namespace TKM_UPLOAD
             this.listBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.upload_file_listBox_DragDrop);
             this.listBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.upload_file_listBox_DragEnter);
             // 
-            // button8
+            // btn_upload_file
             // 
-            this.button8.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button8.Location = new System.Drawing.Point(211, 0);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(80, 23);
-            this.button8.TabIndex = 1;
-            this.button8.Text = "업로드";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.upload_file_button_Click);
+            this.btn_upload_file.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_upload_file.Location = new System.Drawing.Point(211, 0);
+            this.btn_upload_file.Name = "btn_upload_file";
+            this.btn_upload_file.Size = new System.Drawing.Size(80, 23);
+            this.btn_upload_file.TabIndex = 1;
+            this.btn_upload_file.Text = "업로드";
+            this.btn_upload_file.UseVisualStyleBackColor = true;
+            this.btn_upload_file.Click += new System.EventHandler(this.upload_file_button_Click);
             // 
-            // button7
+            // btn_ready
             // 
-            this.button7.Location = new System.Drawing.Point(400, 405);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(120, 50);
-            this.button7.TabIndex = 0;
-            this.button7.Text = "준비완료";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.ready_button_click);
+            this.btn_ready.Location = new System.Drawing.Point(400, 405);
+            this.btn_ready.Name = "btn_ready";
+            this.btn_ready.Size = new System.Drawing.Size(120, 50);
+            this.btn_ready.TabIndex = 0;
+            this.btn_ready.Text = "준비완료";
+            this.btn_ready.UseVisualStyleBackColor = true;
+            this.btn_ready.Click += new System.EventHandler(this.ready_button_click);
             // 
             // groupBox4
             // 
             this.groupBox4.BackColor = System.Drawing.Color.SeaShell;
-            this.groupBox4.Controls.Add(this.button9);
+            this.groupBox4.Controls.Add(this.btn_upload_file_ver);
             this.groupBox4.Controls.Add(this.listBox2);
             this.groupBox4.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox4.Location = new System.Drawing.Point(315, 126);
@@ -201,16 +204,16 @@ namespace TKM_UPLOAD
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "버전 파일";
             // 
-            // button9
+            // btn_upload_file_ver
             // 
-            this.button9.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button9.Location = new System.Drawing.Point(119, 0);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(80, 23);
-            this.button9.TabIndex = 1;
-            this.button9.Text = "업로드";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.upload_ver_file_button_Click);
+            this.btn_upload_file_ver.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_upload_file_ver.Location = new System.Drawing.Point(119, 0);
+            this.btn_upload_file_ver.Name = "btn_upload_file_ver";
+            this.btn_upload_file_ver.Size = new System.Drawing.Size(80, 23);
+            this.btn_upload_file_ver.TabIndex = 1;
+            this.btn_upload_file_ver.Text = "업로드";
+            this.btn_upload_file_ver.UseVisualStyleBackColor = true;
+            this.btn_upload_file_ver.Click += new System.EventHandler(this.upload_ver_file_button_Click);
             // 
             // listBox2
             // 
@@ -225,6 +228,29 @@ namespace TKM_UPLOAD
             this.listBox2.DragDrop += new System.Windows.Forms.DragEventHandler(this.upload_ver_file_listBox_DragDrop);
             this.listBox2.DragEnter += new System.Windows.Forms.DragEventHandler(this.upload_file_listBox_DragEnter);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Enabled = false;
+            this.progressBar1.Location = new System.Drawing.Point(12, 358);
+            this.progressBar1.MarqueeAnimationSpeed = 10;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(508, 10);
+            this.progressBar1.Step = 33;
+            this.progressBar1.TabIndex = 2;
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(12, 374);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(508, 19);
+            this.progressBar2.Step = 1;
+            this.progressBar2.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar2.TabIndex = 2;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
             // Tool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 12F);
@@ -232,17 +258,18 @@ namespace TKM_UPLOAD
             this.BackColor = System.Drawing.Color.PeachPuff;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(532, 524);
+            this.Controls.Add(this.progressBar2);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn_ready);
+            this.Controls.Add(this.btn_start);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.HelpButton = true;
-            this.HelpButtonClicked += Tool_HelpButtonClicked;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -259,21 +286,24 @@ namespace TKM_UPLOAD
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_start;
         private GroupBox groupBox1;
-        private Button button2;
-        private Button button4;
-        private Button button3;
+        private Button btn_type_test;
+        private Button btn_type_real;
+        private Button btn_type_beta;
         private GroupBox groupBox2;
-        private Button button6;
-        private Button button5;
+        private Button btn_category_image;
+        private Button btn_category_program;
         private GroupBox groupBox3;
-        private Button button8;
-        private Button button7;
+        private Button btn_upload_file;
+        private Button btn_ready;
         private ListBox listBox1;
         private GroupBox groupBox4;
-        private Button button9;
+        private Button btn_upload_file_ver;
         private ListBox listBox2;
+        private ProgressBar progressBar1;
+        private ProgressBar progressBar2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

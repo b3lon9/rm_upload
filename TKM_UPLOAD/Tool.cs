@@ -2,13 +2,17 @@
 using System.Collections;
 using System.Drawing;
 using System.IO;
+using System.Resources;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
+
 
 namespace TKM_UPLOAD
 {
     public partial class Tool : Form
     {
+        private bool DEBUG = true;
+
         // Data
         private string mServerType = null;
         private string mCategory = null;
@@ -30,6 +34,7 @@ namespace TKM_UPLOAD
             // init instance
             mUploadFiles = new ArrayList();
             mUploadVerFiles = new ArrayList();
+            btn_start.Enabled = DEBUG;
         }
 
 
@@ -76,7 +81,7 @@ namespace TKM_UPLOAD
             }
             CategoryBtn = (Button)sender;
 
-            if (CategoryBtn == button5)
+            if (CategoryBtn == btn_category_program)
             {
                 mCategory = Server.Category.Program;
             }
@@ -173,24 +178,24 @@ namespace TKM_UPLOAD
         {
             if (mServerType == null)
             {
-                MessageBox.Show("서버를 선택하세요", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Properties.Resources.MsgBoxSuggestServer, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else if (mCategory == null)
             {
-                MessageBox.Show("파일유형을 선택하세요", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Properties.Resources.MsgBoxSuggestCategory, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else if (mUploadFiles.Count == 0)
             {
-                MessageBox.Show("업로드할 파일이 없습니다", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Properties.Resources.MsgBoxSuggestUploadFile, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else if (mUploadVerFiles.Count == 0)
             {
-                MessageBox.Show("업로드할 버전파일 없습니다", Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Properties.Resources.MsgBoxSuggestUploadFileVer, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            /*else if (button1.Enabled)
+            else if (btn_start.Enabled)
             {
-                MessageBox.Show("수정사항 문의\nb3xlon9@gmail.com", Caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }*/
+                
+            }
             else
             {
                 DialogResult dialogResult = MessageBox.Show("업로드 준비가 완료되었습니다", Caption, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
@@ -203,7 +208,7 @@ namespace TKM_UPLOAD
 
                     ClearFocus();
                     // if all complete
-                    button1.Enabled = true;
+                    btn_start.Enabled = true;
                 }
             }
         }
@@ -235,6 +240,11 @@ namespace TKM_UPLOAD
         {
             MessageBox.Show("수정사항 문의\nb3xlon9@gmail.com", Caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
             e.Cancel = true;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            string msg = Properties.Resources.MsgBoxSuggestServer;
         }
     }
 }
