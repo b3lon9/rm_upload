@@ -67,7 +67,7 @@ namespace TKM_UPLOAD
                     mServerType = Server.Type.REAL;
                     break;
             }
-
+            log_write(mServerType + "서버 선택");
             ServerTypeBtn.BackColor = SelectedColor;
             ClearFocus();
         }
@@ -89,6 +89,7 @@ namespace TKM_UPLOAD
             {
                 mCategory = Server.Category.Image;
             }
+            log_write(mCategory + "유형 선택");
             CategoryBtn.BackColor = SelectedColor;
             ClearFocus();
         }
@@ -245,6 +246,12 @@ namespace TKM_UPLOAD
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             string msg = Properties.Resources.MsgBoxSuggestServer;
+        }
+
+        private void log_write(string msg)
+        {
+            logBox.AppendText(msg + "\r\n");
+            
         }
     }
 }
