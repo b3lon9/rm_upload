@@ -37,6 +37,11 @@ namespace TKM_UPLOAD
             btn_start.Enabled = DEBUG;
         }
 
+        private void btn_urlsetting_Click(object sender, EventArgs e)
+        {
+            log_write(Server.URL_INI);
+            Config.ReadURL();
+        }
 
 
         /* 서버, 파일유형
@@ -68,6 +73,7 @@ namespace TKM_UPLOAD
                     break;
             }
             log_write(mServerType + "서버 선택");
+            log_write("TEST URL : " + Server.URL_TEST);
             ServerTypeBtn.BackColor = SelectedColor;
             ClearFocus();
         }

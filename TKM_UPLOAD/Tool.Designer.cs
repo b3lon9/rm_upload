@@ -258,11 +258,10 @@ namespace TKM_UPLOAD
             this.logBox.Location = new System.Drawing.Point(12, 405);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
+            this.logBox.ReadOnly = true;
+            this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logBox.Size = new System.Drawing.Size(378, 106);
             this.logBox.TabIndex = 5;
-            this.logBox.ScrollBars = ScrollBars.Vertical;
-            this.logBox.WordWrap = true;
-            this.logBox.ReadOnly = true;
             // 
             // btn_urlsetting
             // 
@@ -272,6 +271,7 @@ namespace TKM_UPLOAD
             this.btn_urlsetting.TabIndex = 6;
             this.btn_urlsetting.Text = "URL";
             this.btn_urlsetting.UseVisualStyleBackColor = true;
+            this.btn_urlsetting.Click += new System.EventHandler(this.btn_urlsetting_Click);
             // 
             // Tool
             // 
