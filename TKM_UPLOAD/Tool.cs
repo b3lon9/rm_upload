@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Resources;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
@@ -40,7 +41,7 @@ namespace TKM_UPLOAD
         private void btn_urlsetting_Click(object sender, EventArgs e)
         {
             log_write(Server.URL_INI);
-            Config.ReadURL();
+            // Config.ReadURL();
         }
 
 
@@ -253,11 +254,20 @@ namespace TKM_UPLOAD
         {
             string msg = Properties.Resources.MsgBoxSuggestServer;
         }
+        
+        private bool first_append_text = true;
 
         private void log_write(string msg)
         {
-            logBox.AppendText(msg + "\r\n");
-            
+            if (first_append_text)
+            {
+                first_append_text = false;
+                logBox.AppendText(msg);
+            }
+            else
+            {
+                logBox.AppendText("\r\n"+msg);
+            }
         }
     }
 }
