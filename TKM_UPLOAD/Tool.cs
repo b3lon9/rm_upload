@@ -3,6 +3,7 @@ using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Resources;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
@@ -227,9 +228,40 @@ namespace TKM_UPLOAD
             Console.WriteLine("Button Click Current server : {0}", mServerType);
             UIEnabled(false);
             ClearFocus();
+
+
+            // 2023.02.19. FTP Rest TEST ... 
+            byte[] data;
+            
+            Console.WriteLine("...>??? : " + listBox1.Items[0].ToString());
+            Console.WriteLine("...>??? : " + mUploadFiles[0].ToString());
+            using (StreamReader reader = new StreamReader(new FileStream(mUploadFiles[0].ToString(), FileMode.Open), true))
+            {
+                var line = reader.ReadLine();
+                while(line != null)
+                {
+                    log_write(line);
+                    line = reader.ReadLine();
+                }
+                
+            }
+            /*string server = "192.168.56.1/home/neander/Desktop";
+
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("");
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+            request.Credentials = new NetworkCredential("login", "password");
+            request.UseBinary = true;
+            byte[] buffer = new byte[1024];     // memeory stream
+            Stream requestStream = request.GetRequestStream();
+            requestStream.Write(buffer, 0, buffer.Length);
+            requestStream.Close();
+
+            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+            response.Close();
+            MessageBox.Show(Properties.Resources.MsgBoxSuggestUploadFileVer, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);*/
         }
 
-        
+
 
         private void ClearFocus()
         {
