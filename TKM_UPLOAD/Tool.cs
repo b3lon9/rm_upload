@@ -5,7 +5,7 @@ using System.IO;
 using System.Resources;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
-
+using TKM_UPLOAD.View;
 
 namespace TKM_UPLOAD
 {
@@ -41,6 +41,9 @@ namespace TKM_UPLOAD
         {
             log_write(Server.URL_INI);
             Config.ReadURL();
+
+            IniSettingDialog dialog = new IniSettingDialog();
+            dialog.Show();
         }
 
 
