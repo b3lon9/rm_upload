@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Resources;
+using System.Text;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
 using TKM_UPLOAD.View;
@@ -117,6 +118,7 @@ namespace TKM_UPLOAD
             OpenFileDialog filesDialog = new OpenFileDialog();
             // filesDialog.InitialDirectory = FileBeforePath;      
             filesDialog.Multiselect = true;
+            // filesDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             if (filesDialog.ShowDialog() == DialogResult.OK)
             {
@@ -147,7 +149,7 @@ namespace TKM_UPLOAD
             OpenFileDialog filesDialog = new OpenFileDialog();
             // filesDialog.InitialDirectory = FileBeforePath;      
             filesDialog.Multiselect = true;
-
+            // filesDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (filesDialog.ShowDialog() == DialogResult.OK)
             {
                 // FileBeforePath = filesDialog.FileName;
@@ -284,7 +286,7 @@ namespace TKM_UPLOAD
 
         private bool first_append_text = true;
 
-        private void log_write(string msg, Result result = Result.일반)
+        private void log_write(string msg = "\r\n", Result result = Result.일반)
         {
             switch (result)
             {
@@ -312,8 +314,8 @@ namespace TKM_UPLOAD
                 richTextBox1.AppendText("\r\n"+msg);
             }
 
-richTextBox1.SelectionStart = richTextBox1.Text.Length;
-richTextBox1.ScrollToCaret();
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
         }
 
 
@@ -328,7 +330,32 @@ richTextBox1.ScrollToCaret();
 
             Console.WriteLine("...>??? : " + listBox1.Items[0].ToString());
             Console.WriteLine("...>??? : " + mUploadFiles[0].ToString());
-            using (StreamReader reader = new StreamReader(new FileStream(mUploadFiles[0].ToString(), FileMode.Open), true))
+
+            // file Size
+            long filesize = 0;
+
+            foreach (var file in mUploadFiles)
+            {
+                FileInfo fileInfo = new FileInfo(file.ToString());
+                filesize += fileInfo.Length;
+
+                // backgroundWorker1.ReportProgress(0, "file size : " + filesize);
+                Console.WriteLine("================== Other File : " + fileInfo.Name);
+                Console.WriteLine("================== Other File : " + fileInfo.Length);
+                using (StreamReader sr = new StreamReader(file.ToString()))
+                {
+
+                    while (sr.EndOfStream == false)
+                    {
+                        var line = sr.ReadLine();
+                        // var value = (int)(((decimal)line.Length / (decimal)fileInfo.Length)*(decimal)100);
+                        backgroundWorker1.ReportProgress(line.Length);
+                    }
+                    // data = Encoding.UTF8.GetBytes(sr.ReadToEnd());
+                }
+            }
+
+            /*using (StreamReader reader = new StreamReader(new FileStream(mUploadFiles[0].ToString(), FileMode.Open), true))
             {
                 var line = reader.ReadLine();
                 while (line != null)
@@ -336,18 +363,25 @@ richTextBox1.ScrollToCaret();
                     log_write(line);
                     line = reader.ReadLine();
                 }
-
-            }
+            }*/
         }
+        int value = 0;
 
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-
+            // progressbar update
+            Console.WriteLine("percentage : " + e.ProgressPercentage);
+            value += e.ProgressPercentage;
+            // progressBar1.Value = e.ProgressPercentage;
+            
+            // logbox update
+            // log_write((string)e.UserState);
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             string msg = Properties.Resources.MsgBoxSuggestServer;
+            log_write("... value : " + value);
         }
 
         private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
