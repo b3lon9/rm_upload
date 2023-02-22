@@ -49,8 +49,9 @@ namespace TKM_UPLOAD
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.logBox = new System.Windows.Forms.TextBox();
             this.btn_urlsetting = new System.Windows.Forms.Button();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -251,17 +252,9 @@ namespace TKM_UPLOAD
             // 
             // backgroundWorker1
             // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // logBox
-            // 
-            this.logBox.Location = new System.Drawing.Point(12, 405);
-            this.logBox.Multiline = true;
-            this.logBox.Name = "logBox";
-            this.logBox.ReadOnly = true;
-            this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logBox.Size = new System.Drawing.Size(378, 106);
-            this.logBox.TabIndex = 5;
             // 
             // btn_urlsetting
             // 
@@ -273,6 +266,23 @@ namespace TKM_UPLOAD
             this.btn_urlsetting.UseVisualStyleBackColor = true;
             this.btn_urlsetting.Click += new System.EventHandler(this.btn_urlsetting_Click);
             // 
+            // backgroundWorker2
+            // 
+            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
+            this.backgroundWorker2.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker2_ProgressChanged);
+            this.backgroundWorker2.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker2_RunWorkerCompleted);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.AutoWordSelection = true;
+            this.richTextBox1.Location = new System.Drawing.Point(12, 405);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(382, 106);
+            this.richTextBox1.TabIndex = 7;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
+            // 
             // Tool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 12F);
@@ -280,8 +290,8 @@ namespace TKM_UPLOAD
             this.BackColor = System.Drawing.Color.PeachPuff;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(532, 524);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.btn_urlsetting);
-            this.Controls.Add(this.logBox);
             this.Controls.Add(this.progressBar2);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.groupBox4);
@@ -294,7 +304,6 @@ namespace TKM_UPLOAD
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.HelpButton = true;
-            this.HelpButtonClicked += Tool_HelpButtonClicked;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -306,7 +315,6 @@ namespace TKM_UPLOAD
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -323,15 +331,16 @@ namespace TKM_UPLOAD
         private GroupBox groupBox3;
         private Button btn_upload_file;
         private Button btn_ready;
-        private ListBox listBox1;
         private GroupBox groupBox4;
         private Button btn_upload_file_ver;
         private ListBox listBox2;
         private ProgressBar progressBar1;
         private ProgressBar progressBar2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private TextBox logBox;
         private Button btn_urlsetting;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private ListBox listBox1;
+        private RichTextBox richTextBox1;
     }
 }
 

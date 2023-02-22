@@ -8,6 +8,7 @@ using System.Resources;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
 using TKM_UPLOAD.View;
+using static TKM_UPLOAD.Data.Enum;
 
 namespace TKM_UPLOAD
 {
@@ -41,11 +42,11 @@ namespace TKM_UPLOAD
 
         private void btn_urlsetting_Click(object sender, EventArgs e)
         {
-            log_write(Server.URL_INI);
+            log_write(Server.URL_INI, Result.실패);
             Config.ReadURL();
 
-            IniSettingDialog dialog = new IniSettingDialog();
-            dialog.Show();
+            //IniSettingDialog dialog = new IniSettingDialog();
+            //dialog.Show();
         }
 
 
@@ -77,8 +78,8 @@ namespace TKM_UPLOAD
                     mServerType = Server.Type.REAL;
                     break;
             }
-            log_write(mServerType + "서버 선택");
-            log_write("TEST URL : " + Server.URL_TEST);
+            log_write(mServerType + "서버 선택", Result.성공);
+            //log_write("TEST URL : " + Server.URL_TEST);
             ServerTypeBtn.BackColor = SelectedColor;
             ClearFocus();
         }
@@ -232,22 +233,18 @@ namespace TKM_UPLOAD
             UIEnabled(false);
             ClearFocus();
 
-
-            // 2023.02.19. FTP Rest TEST ... 
-            byte[] data;
-            
-            Console.WriteLine("...>??? : " + listBox1.Items[0].ToString());
-            Console.WriteLine("...>??? : " + mUploadFiles[0].ToString());
-            using (StreamReader reader = new StreamReader(new FileStream(mUploadFiles[0].ToString(), FileMode.Open), true))
+            if (mUploadFiles != null)
             {
-                var line = reader.ReadLine();
-                while(line != null)
-                {
-                    log_write(line);
-                    line = reader.ReadLine();
-                }
-                
+                log_write("File Upload...");
+                backgroundWorker1.RunWorkerAsync();
             }
+
+            if (mUploadVerFiles != null)
+            {
+                log_write("VerFile Upload...");
+                backgroundWorker2.RunWorkerAsync();
+            }
+           
             /*string server = "192.168.56.1/home/neander/Desktop";
 
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create("");
@@ -285,24 +282,87 @@ namespace TKM_UPLOAD
             e.Cancel = true;
         }
 
+        private bool first_append_text = true;
+
+        private void log_write(string msg, Result result = Result.일반)
+        {
+            switch (result)
+            {
+                case Result.실패:
+                    richTextBox1.SelectionColor = Color.Red;
+                    break;
+
+                case Result.성공:
+                    richTextBox1.SelectionColor = Color.Green;
+                    break;
+
+                case Result.일반:
+                    richTextBox1.SelectionColor = Color.Black;
+                    break;
+            }
+
+
+            if (first_append_text)
+            {
+                first_append_text = false;
+                richTextBox1.AppendText(msg);
+            }
+            else
+            {
+                richTextBox1.AppendText("\r\n"+msg);
+            }
+
+richTextBox1.SelectionStart = richTextBox1.Text.Length;
+richTextBox1.ScrollToCaret();
+        }
+
+
+
+        /*
+         Background Working
+         */
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            // 2023.02.19. FTP Rest TEST ... 
+            byte[] data;
+
+            Console.WriteLine("...>??? : " + listBox1.Items[0].ToString());
+            Console.WriteLine("...>??? : " + mUploadFiles[0].ToString());
+            using (StreamReader reader = new StreamReader(new FileStream(mUploadFiles[0].ToString(), FileMode.Open), true))
+            {
+                var line = reader.ReadLine();
+                while (line != null)
+                {
+                    log_write(line);
+                    line = reader.ReadLine();
+                }
+
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+
+        }
+
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             string msg = Properties.Resources.MsgBoxSuggestServer;
         }
-        
-        private bool first_append_text = true;
 
-        private void log_write(string msg)
+        private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            if (first_append_text)
-            {
-                first_append_text = false;
-                logBox.AppendText(msg);
-            }
-            else
-            {
-                logBox.AppendText("\r\n"+msg);
-            }
+
+        }
+
+        private void backgroundWorker2_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+
         }
     }
 }
