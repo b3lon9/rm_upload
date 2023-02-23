@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -338,18 +339,30 @@ namespace TKM_UPLOAD
             {
                 FileInfo fileInfo = new FileInfo(file.ToString());
                 filesize += fileInfo.Length;
+            }
+            Console.WriteLine("...>??? : " + filesize);
 
+            progressBar1.Invoke(new MethodInvoker(delegate()
+            {
+                progressBar1.Maximum = (int)filesize;
+            }));
+
+
+            Console.WriteLine("....... progressbar.. : " + progressBar1.Maximum);
+            Console.WriteLine("....... progressbar.. : " + progressBar1.Value);
+            int count = 0;
+            foreach (var file in mUploadFiles)
+            {
                 // backgroundWorker1.ReportProgress(0, "file size : " + filesize);
-                Console.WriteLine("================== Other File : " + fileInfo.Name);
-                Console.WriteLine("================== Other File : " + fileInfo.Length);
+                Console.WriteLine("================== Other File : " + file);
                 using (StreamReader sr = new StreamReader(file.ToString()))
                 {
-
                     while (sr.EndOfStream == false)
                     {
                         var line = sr.ReadLine();
+                        count += line.Length;
                         // var value = (int)(((decimal)line.Length / (decimal)fileInfo.Length)*(decimal)100);
-                        backgroundWorker1.ReportProgress(line.Length);
+                        backgroundWorker1.ReportProgress(count);
                     }
                     // data = Encoding.UTF8.GetBytes(sr.ReadToEnd());
                 }
@@ -371,8 +384,8 @@ namespace TKM_UPLOAD
         {
             // progressbar update
             Console.WriteLine("percentage : " + e.ProgressPercentage);
-            value += e.ProgressPercentage;
-            // progressBar1.Value = e.ProgressPercentage;
+            // value += e.ProgressPercentage;
+            progressBar1.Value = e.ProgressPercentage;
             
             // logbox update
             // log_write((string)e.UserState);
@@ -380,6 +393,8 @@ namespace TKM_UPLOAD
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
+            progressBar1.Value = progressBar1.Maximum;
+
             string msg = Properties.Resources.MsgBoxSuggestServer;
             log_write("... value : " + value);
         }
