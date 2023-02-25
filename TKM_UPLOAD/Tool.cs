@@ -192,6 +192,8 @@ namespace TKM_UPLOAD
         // Upload Ready Button
         private void ready_button_click(object sender, EventArgs e)
         {
+            NetworkCheck();
+
             if (mServerType == null)
             {
                 MessageBox.Show(Properties.Resources.MsgBoxSuggestServer, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -412,6 +414,16 @@ namespace TKM_UPLOAD
         private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
 
+        }
+
+        private void NetworkCheck()
+        {
+            const string URL = "192.168.56.1";
+
+            var web = new WebClient();
+            string result = web.DownloadString(URL);
+
+            Console.WriteLine("Network TEST ..... : " + result);
         }
     }
 }
