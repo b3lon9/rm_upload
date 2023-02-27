@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
-using System.Dynamic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Resources;
-using System.Text;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
-using TKM_UPLOAD.View;
 using static TKM_UPLOAD.Data.Enum;
 
 namespace TKM_UPLOAD
@@ -29,7 +24,6 @@ namespace TKM_UPLOAD
 
         // UI
         private Color SelectedColor = Color.Tomato;
-        private string FileBeforePath = "%USER_HOME%/";     // 재클릭시 이전 폴더가 표출되도록
         private string Caption = "";
 
         public Tool()
@@ -44,11 +38,7 @@ namespace TKM_UPLOAD
 
         private void btn_urlsetting_Click(object sender, EventArgs e)
         {
-            log_write(Server.URL_INI, Result.실패);
             Config.ReadURL();
-
-            //IniSettingDialog dialog = new IniSettingDialog();
-            //dialog.Show();
         }
 
 
@@ -70,20 +60,12 @@ namespace TKM_UPLOAD
 
             switch (ServerTypeBtn.Text)
             {
-                case "TEST":
-                    mServerType = Server.Type.TEST;
-                    break;
-                case "BETA":
-                    mServerType = Server.Type.BETA;
-                    break;
-                case "REAL":
-                    mServerType = Server.Type.REAL;
-                    break;
+                case "TEST": mServerType = Server.Type.TEST; break;
+                case "BETA": mServerType = Server.Type.BETA; break;
+                case "REAL": mServerType = Server.Type.REAL; break;
             }
-            log_write(mServerType + "서버 선택", Result.성공);
-            //log_write("TEST URL : " + Server.URL_TEST);
+            log_write(mServerType + "서버 선택", Result.일반);
             ServerTypeBtn.BackColor = SelectedColor;
-            ClearFocus();
         }
 
         // Type Select Button
@@ -105,7 +87,6 @@ namespace TKM_UPLOAD
             }
             log_write(mCategory + "유형 선택");
             CategoryBtn.BackColor = SelectedColor;
-            ClearFocus();
         }
 
 
@@ -117,9 +98,7 @@ namespace TKM_UPLOAD
         private void upload_file_button_Click(object sender, EventArgs e)
         {
             OpenFileDialog filesDialog = new OpenFileDialog();
-            // filesDialog.InitialDirectory = FileBeforePath;      
             filesDialog.Multiselect = true;
-            // filesDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             if (filesDialog.ShowDialog() == DialogResult.OK)
             {
@@ -131,7 +110,6 @@ namespace TKM_UPLOAD
                     mUploadFiles.Add(filepath);
                 }
             }
-            ClearFocus();
         }
 
         private void upload_file_listBox_DragDrop(object sender, DragEventArgs e)
@@ -148,9 +126,9 @@ namespace TKM_UPLOAD
         private void upload_ver_file_button_Click(object sender, EventArgs e)
         {
             OpenFileDialog filesDialog = new OpenFileDialog();
-            // filesDialog.InitialDirectory = FileBeforePath;      
             filesDialog.Multiselect = true;
             // filesDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
             if (filesDialog.ShowDialog() == DialogResult.OK)
             {
                 // FileBeforePath = filesDialog.FileName;
@@ -161,7 +139,6 @@ namespace TKM_UPLOAD
                     mUploadVerFiles.Add(filepath);
                 }
             }
-            ClearFocus();
         }
 
         private void upload_ver_file_listBox_DragDrop(object sender, DragEventArgs e)
@@ -212,7 +189,7 @@ namespace TKM_UPLOAD
             }
             else if (btn_start.Enabled)
             {
-                
+
             }
             else
             {
@@ -224,7 +201,6 @@ namespace TKM_UPLOAD
                         Console.WriteLine(item);
                     }
 
-                    ClearFocus();
                     // if all complete
                     btn_start.Enabled = true;
                 }
@@ -236,7 +212,6 @@ namespace TKM_UPLOAD
         {
             Console.WriteLine("Button Click Current server : {0}", mServerType);
             UIEnabled(false);
-            ClearFocus();
 
             if (mUploadFiles != null)
             {
@@ -249,26 +224,11 @@ namespace TKM_UPLOAD
                 log_write("VerFile Upload...");
                 backgroundWorker2.RunWorkerAsync();
             }
-           
-            /*string server = "192.168.56.1/home/neander/Desktop";
-
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("");
-            request.Method = WebRequestMethods.Ftp.UploadFile;
-            request.Credentials = new NetworkCredential("login", "password");
-            request.UseBinary = true;
-            byte[] buffer = new byte[1024];     // memeory stream
-            Stream requestStream = request.GetRequestStream();
-            requestStream.Write(buffer, 0, buffer.Length);
-            requestStream.Close();
-
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-            response.Close();
-            MessageBox.Show(Properties.Resources.MsgBoxSuggestUploadFileVer, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);*/
         }
 
 
 
-        private void ClearFocus()
+        private void ClearFocus(object sender, EventArgs e)
         {
             listBox1.Focus();
         }
@@ -293,20 +253,12 @@ namespace TKM_UPLOAD
         {
             switch (result)
             {
-                case Result.실패:
-                    richTextBox1.SelectionColor = Color.Red;
-                    break;
-
-                case Result.성공:
-                    richTextBox1.SelectionColor = Color.Green;
-                    break;
-
-                case Result.일반:
-                    richTextBox1.SelectionColor = Color.Black;
-                    break;
+                case Result.실패: richTextBox1.SelectionColor = Color.Red;   break;
+                case Result.성공: richTextBox1.SelectionColor = Color.Green; break;
+                case Result.일반: richTextBox1.SelectionColor = Color.Black; break;
             }
 
-
+            // 최초 입력시 줄바꿈 관련
             if (first_append_text)
             {
                 first_append_text = false;
@@ -314,9 +266,10 @@ namespace TKM_UPLOAD
             }
             else
             {
-                richTextBox1.AppendText("\r\n"+msg);
+                richTextBox1.AppendText("\r\n" + msg);
             }
 
+            // 자동 스크롤
             richTextBox1.SelectionStart = richTextBox1.Text.Length;
             richTextBox1.ScrollToCaret();
         }
@@ -344,7 +297,7 @@ namespace TKM_UPLOAD
             }
             Console.WriteLine("...>??? : " + filesize);
 
-            progressBar1.Invoke(new MethodInvoker(delegate()
+            progressBar1.Invoke(new MethodInvoker(delegate ()
             {
                 progressBar1.Maximum = (int)filesize;
             }));
@@ -379,6 +332,22 @@ namespace TKM_UPLOAD
                     line = reader.ReadLine();
                 }
             }*/
+
+
+            /*string server = "192.168.56.1/home/neander/Desktop";
+
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("");
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+            request.Credentials = new NetworkCredential("login", "password");
+            request.UseBinary = true;
+            byte[] buffer = new byte[1024];     // memeory stream
+            Stream requestStream = request.GetRequestStream();
+            requestStream.Write(buffer, 0, buffer.Length);
+            requestStream.Close();
+
+            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+            response.Close();
+            MessageBox.Show(Properties.Resources.MsgBoxSuggestUploadFileVer, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);*/
         }
         int value = 0;
 
@@ -388,7 +357,7 @@ namespace TKM_UPLOAD
             Console.WriteLine("percentage : " + e.ProgressPercentage);
             // value += e.ProgressPercentage;
             progressBar1.Value = e.ProgressPercentage;
-            
+
             // logbox update
             // log_write((string)e.UserState);
         }

@@ -92,6 +92,7 @@ namespace TKM_UPLOAD
             this.btn_type_real.Text = "REAL";
             this.btn_type_real.UseVisualStyleBackColor = true;
             this.btn_type_real.Click += new System.EventHandler(this.server_button_Click);
+            this.btn_type_real.Click += new System.EventHandler(this.ClearFocus);
             // 
             // btn_type_beta
             // 
@@ -102,6 +103,7 @@ namespace TKM_UPLOAD
             this.btn_type_beta.Text = "BETA";
             this.btn_type_beta.UseVisualStyleBackColor = true;
             this.btn_type_beta.Click += new System.EventHandler(this.server_button_Click);
+            this.btn_type_beta.Click += new System.EventHandler(this.ClearFocus);
             // 
             // btn_type_test
             // 
@@ -113,6 +115,7 @@ namespace TKM_UPLOAD
             this.btn_type_test.Text = "TEST";
             this.btn_type_test.UseVisualStyleBackColor = true;
             this.btn_type_test.Click += new System.EventHandler(this.server_button_Click);
+            this.btn_type_test.Click += new System.EventHandler(this.ClearFocus);
             // 
             // groupBox2
             // 
@@ -136,6 +139,7 @@ namespace TKM_UPLOAD
             this.btn_category_image.Text = "이미지";
             this.btn_category_image.UseVisualStyleBackColor = true;
             this.btn_category_image.Click += new System.EventHandler(this.type_button_Click);
+            this.btn_category_image.Click += new System.EventHandler(this.ClearFocus);
             // 
             // btn_category_program
             // 
@@ -146,6 +150,7 @@ namespace TKM_UPLOAD
             this.btn_category_program.Text = "프로그램";
             this.btn_category_program.UseVisualStyleBackColor = true;
             this.btn_category_program.Click += new System.EventHandler(this.type_button_Click);
+            this.btn_category_program.Click += new System.EventHandler(this.ClearFocus);
             // 
             // groupBox3
             // 
@@ -183,6 +188,7 @@ namespace TKM_UPLOAD
             this.btn_upload_file.Text = "업로드";
             this.btn_upload_file.UseVisualStyleBackColor = true;
             this.btn_upload_file.Click += new System.EventHandler(this.upload_file_button_Click);
+            this.btn_upload_file.Click += new System.EventHandler(this.ClearFocus);
             // 
             // btn_ready
             // 
@@ -193,6 +199,7 @@ namespace TKM_UPLOAD
             this.btn_ready.Text = "준비완료";
             this.btn_ready.UseVisualStyleBackColor = true;
             this.btn_ready.Click += new System.EventHandler(this.ready_button_click);
+            this.btn_ready.Click += new System.EventHandler(this.ClearFocus);
             // 
             // groupBox4
             // 
@@ -217,6 +224,7 @@ namespace TKM_UPLOAD
             this.btn_upload_file_ver.Text = "업로드";
             this.btn_upload_file_ver.UseVisualStyleBackColor = true;
             this.btn_upload_file_ver.Click += new System.EventHandler(this.upload_ver_file_button_Click);
+            this.btn_upload_file_ver.Click += new System.EventHandler(this.ClearFocus);
             // 
             // listBox2
             // 
@@ -266,6 +274,7 @@ namespace TKM_UPLOAD
             this.btn_urlsetting.Text = "URL";
             this.btn_urlsetting.UseVisualStyleBackColor = true;
             this.btn_urlsetting.Click += new System.EventHandler(this.btn_urlsetting_Click);
+            this.btn_urlsetting.Click += new System.EventHandler(this.ClearFocus);
             // 
             // backgroundWorker2
             // 
@@ -305,6 +314,7 @@ namespace TKM_UPLOAD
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.HelpButton = true;
+            this.HelpButtonClicked += Tool_HelpButtonClicked;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
