@@ -281,12 +281,6 @@ namespace TKM_UPLOAD
          */
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            // 2023.02.19. FTP Rest TEST ... 
-            byte[] data;
-
-            Console.WriteLine("...>??? : " + listBox1.Items[0].ToString());
-            Console.WriteLine("...>??? : " + mUploadFiles[0].ToString());
-
             // file Size
             long filesize = 0;
 
@@ -295,79 +289,57 @@ namespace TKM_UPLOAD
                 FileInfo fileInfo = new FileInfo(file.ToString());
                 filesize += fileInfo.Length;
             }
-            Console.WriteLine("...>??? : " + filesize);
+            Console.WriteLine("total filesize : " + filesize);
 
-            progressBar1.Invoke(new MethodInvoker(delegate ()
+            progressBar2.Invoke(new MethodInvoker(delegate ()
             {
-                progressBar1.Maximum = (int)filesize;
+                progressBar2.Maximum = (int)filesize;
             }));
 
 
-            Console.WriteLine("....... progressbar.. : " + progressBar1.Maximum);
-            Console.WriteLine("....... progressbar.. : " + progressBar1.Value);
             int count = 0;
             foreach (var file in mUploadFiles)
             {
-                // backgroundWorker1.ReportProgress(0, "file size : " + filesize);
-                Console.WriteLine("================== Other File : " + file);
-                using (StreamReader sr = new StreamReader(file.ToString()))
+                byte[] fileBytes = File.ReadAllBytes(file.ToString());
+
+                // FTP
+                FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(new Uri("ftp://192.168.56.1/home/neander/" + Path.GetFileName(file.ToString())));
+                ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
+                ftpWebRequest.Credentials = new NetworkCredential("neander", "****");
+
+                using (Stream requestStream = ftpWebRequest.GetRequestStream())
                 {
-                    while (sr.EndOfStream == false)
+                    int bufferSize = 2048;
+                    int totalBytes = fileBytes.Length;
+                    int uploadBytes = 0;
+                    int bytesRead = 0;
+                    byte[] buffer = new byte[bufferSize];
+
+                    progressBar1.Invoke(new MethodInvoker(delegate ()
                     {
-                        var line = sr.ReadLine();
-                        count += line.Length;
-                        // var value = (int)(((decimal)line.Length / (decimal)fileInfo.Length)*(decimal)100);
-                        backgroundWorker1.ReportProgress(count);
+                        progressBar1.Maximum = totalBytes;
+                    }));
+
+                    while (uploadBytes < totalBytes)
+                    {
+                        bytesRead = Math.Min(bufferSize, totalBytes - uploadBytes);
+                        requestStream.Write(fileBytes, uploadBytes, bytesRead);
+                        uploadBytes += bytesRead;
+
+                        backgroundWorker1.ReportProgress(uploadBytes);
                     }
-                    // data = Encoding.UTF8.GetBytes(sr.ReadToEnd());
                 }
             }
-
-            /*using (StreamReader reader = new StreamReader(new FileStream(mUploadFiles[0].ToString(), FileMode.Open), true))
-            {
-                var line = reader.ReadLine();
-                while (line != null)
-                {
-                    log_write(line);
-                    line = reader.ReadLine();
-                }
-            }*/
-
-
-            /*string server = "192.168.56.1/home/neander/Desktop";
-
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("");
-            request.Method = WebRequestMethods.Ftp.UploadFile;
-            request.Credentials = new NetworkCredential("login", "password");
-            request.UseBinary = true;
-            byte[] buffer = new byte[1024];     // memeory stream
-            Stream requestStream = request.GetRequestStream();
-            requestStream.Write(buffer, 0, buffer.Length);
-            requestStream.Close();
-
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-            response.Close();
-            MessageBox.Show(Properties.Resources.MsgBoxSuggestUploadFileVer, Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);*/
         }
-        int value = 0;
 
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            // progressbar update
-            Console.WriteLine("percentage : " + e.ProgressPercentage);
-            // value += e.ProgressPercentage;
             progressBar1.Value = e.ProgressPercentage;
-
-            // logbox update
-            // log_write((string)e.UserState);
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             progressBar1.Value = progressBar1.Maximum;
-
-            string msg = Properties.Resources.MsgBoxSuggestServer;
-            log_write("... value : " + value);
         }
 
         private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
