@@ -303,32 +303,45 @@ namespace TKM_UPLOAD
                 byte[] fileBytes = File.ReadAllBytes(file.ToString());
 
                 // FTP
-                FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(new Uri("ftp://192.168.56.1/home/neander/" + Path.GetFileName(file.ToString())));
-                ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
-                ftpWebRequest.Credentials = new NetworkCredential("neander", "****");
-
-                using (Stream requestStream = ftpWebRequest.GetRequestStream())
+                try
                 {
-                    int bufferSize = 2048;
-                    int totalBytes = fileBytes.Length;
-                    int uploadBytes = 0;
-                    int bytesRead = 0;
-                    byte[] buffer = new byte[bufferSize];
+                    string url = "ftp://192.168.73.1/test/" + Path.GetFileName(file.ToString());
+                    Console.WriteLine($"{file.ToString()} : {url}");
 
-                    progressBar1.Invoke(new MethodInvoker(delegate ()
+                    FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(new Uri(url));
+                    ftpWebRequest.UsePassive = false;
+                    ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
+                    ftpWebRequest.Credentials = new NetworkCredential("neander", "5147");
+
+                    using (Stream requestStream = ftpWebRequest.GetRequestStream())
                     {
-                        progressBar1.Maximum = totalBytes;
-                    }));
+                        int bufferSize = 2048;
+                        int totalBytes = fileBytes.Length;
+                        int uploadBytes = 0;
+                        int bytesRead = 0;
+                        byte[] buffer = new byte[bufferSize];
 
-                    while (uploadBytes < totalBytes)
-                    {
-                        bytesRead = Math.Min(bufferSize, totalBytes - uploadBytes);
-                        requestStream.Write(fileBytes, uploadBytes, bytesRead);
-                        uploadBytes += bytesRead;
+                        // progressbar1 setting
+                        progressBar1.Invoke(new MethodInvoker(delegate ()
+                        {
+                            progressBar1.Maximum = totalBytes;
+                        }));
 
-                        backgroundWorker1.ReportProgress(uploadBytes);
+                        while (uploadBytes < totalBytes)
+                        {
+                            bytesRead = Math.Min(bufferSize, totalBytes - uploadBytes);
+                            requestStream.Write(fileBytes, uploadBytes, bytesRead);
+                            uploadBytes += bytesRead;
+
+                            backgroundWorker1.ReportProgress(uploadBytes);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("...error Message :\n" + ex.ToString());
+                }
+                
             }
         }
 
