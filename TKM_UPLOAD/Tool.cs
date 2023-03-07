@@ -215,12 +215,12 @@ namespace TKM_UPLOAD
 
             if (mUploadFiles != null && mUploadFiles.Count > 0)
             {
-                log_write("File Upload...");
+                Console.WriteLine("File Upload...");
                 backgroundWorker1.RunWorkerAsync();
             }
             else if (mUploadVerFiles != null && mUploadVerFiles.Count > 0)
             {
-                log_write("VerFile Upload...");
+                Console.WriteLine("VerFile Upload...");
                 backgroundWorker2.RunWorkerAsync();
             }
         }
@@ -362,6 +362,7 @@ namespace TKM_UPLOAD
 
             if (mUploadVerFiles != null && mUploadVerFiles.Count > 0)
             {
+                progressBar2.Value = 0;
                 log_write("VerFile Upload...");
                 backgroundWorker2.RunWorkerAsync();
             }
@@ -381,7 +382,6 @@ namespace TKM_UPLOAD
 
             progressBar2.Invoke(new MethodInvoker(delegate ()
             {
-                progressBar2.Value = 0;
                 progressBar2.Maximum = (int)filesize;
             }));
 
@@ -402,7 +402,6 @@ namespace TKM_UPLOAD
                     ftpWebRequest.UsePassive = false;
                     ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
                     ftpWebRequest.Credentials = new NetworkCredential("neander", "5147");
-
                     using (Stream requestStream = ftpWebRequest.GetRequestStream())
                     {
                         int bufferSize = 2048;
@@ -424,13 +423,15 @@ namespace TKM_UPLOAD
                             requestStream.Write(fileBytes, uploadBytes, bytesRead);
                             uploadBytes += bytesRead;
 
-                            backgroundWorker1.ReportProgress(uploadBytes);
+                            backgroundWorker2.ReportProgress(uploadBytes);
                         }
 
                         progressBar2.Invoke(new MethodInvoker(delegate ()
                         {
                             progressBar2.Value += totalBytes;
                         }));
+
+                        requestStream.Close();
                     }
                 }
                 catch (Exception ex)
