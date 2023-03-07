@@ -213,13 +213,12 @@ namespace TKM_UPLOAD
             Console.WriteLine("Button Click Current server : {0}", mServerType);
             UIEnabled(false);
 
-            if (mUploadFiles != null)
+            if (mUploadFiles != null && mUploadFiles.Count > 0)
             {
                 log_write("File Upload...");
                 backgroundWorker1.RunWorkerAsync();
             }
-
-            if (mUploadVerFiles != null)
+            else if (mUploadVerFiles != null && mUploadVerFiles.Count > 0)
             {
                 log_write("VerFile Upload...");
                 backgroundWorker2.RunWorkerAsync();
@@ -354,14 +353,18 @@ namespace TKM_UPLOAD
 
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            Console.WriteLine("max.. : " + progressBar1.Maximum);
-            Console.WriteLine("min.. : " + progressBar1.Minimum);
             progressBar1.Value = e.ProgressPercentage;
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             progressBar1.Value = progressBar1.Maximum;
+
+            if (mUploadVerFiles != null && mUploadVerFiles.Count > 0)
+            {
+                log_write("VerFile Upload...");
+                backgroundWorker2.RunWorkerAsync();
+            }
         }
 
         private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -369,7 +372,7 @@ namespace TKM_UPLOAD
             // file Size
             long filesize = 0;
 
-            foreach (var file in mUploadFiles)
+            foreach (var file in mUploadVerFiles)
             {
                 FileInfo fileInfo = new FileInfo(file.ToString());
                 filesize += fileInfo.Length;
