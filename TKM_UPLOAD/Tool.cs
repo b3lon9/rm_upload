@@ -293,6 +293,7 @@ namespace TKM_UPLOAD
 
             progressBar2.Invoke(new MethodInvoker(delegate ()
             {
+                progressBar2.Value = 0;
                 progressBar2.Maximum = (int)filesize;
             }));
 
@@ -300,6 +301,7 @@ namespace TKM_UPLOAD
             int count = 0;
             foreach (var file in mUploadFiles)
             {
+                Console.WriteLine("file... : " + file);
                 byte[] fileBytes = File.ReadAllBytes(file.ToString());
 
                 // FTP
@@ -324,6 +326,7 @@ namespace TKM_UPLOAD
                         // progressbar1 setting
                         progressBar1.Invoke(new MethodInvoker(delegate ()
                         {
+                            progressBar1.Value = 0;
                             progressBar1.Maximum = totalBytes;
                         }));
 
@@ -335,18 +338,24 @@ namespace TKM_UPLOAD
 
                             backgroundWorker1.ReportProgress(uploadBytes);
                         }
+
+                        progressBar2.Invoke(new MethodInvoker(delegate ()
+                        {
+                            progressBar2.Value += totalBytes;
+                        }));
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("...error Message :\n" + ex.ToString());
                 }
-                
             }
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
+            Console.WriteLine("max.. : " + progressBar1.Maximum);
+            Console.WriteLine("min.. : " + progressBar1.Minimum);
             progressBar1.Value = e.ProgressPercentage;
         }
 
@@ -357,17 +366,85 @@ namespace TKM_UPLOAD
 
         private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            // file Size
+            long filesize = 0;
 
+            foreach (var file in mUploadFiles)
+            {
+                FileInfo fileInfo = new FileInfo(file.ToString());
+                filesize += fileInfo.Length;
+            }
+            Console.WriteLine("total filesize : " + filesize);
+
+            progressBar2.Invoke(new MethodInvoker(delegate ()
+            {
+                progressBar2.Value = 0;
+                progressBar2.Maximum = (int)filesize;
+            }));
+
+
+            int count = 0;
+            foreach (var file in mUploadVerFiles)
+            {
+                Console.WriteLine("file... : " + file);
+                byte[] fileBytes = File.ReadAllBytes(file.ToString());
+
+                // FTP
+                try
+                {
+                    string url = "ftp://192.168.73.1/test/" + Path.GetFileName(file.ToString());
+                    Console.WriteLine($"{file.ToString()} : {url}");
+
+                    FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(new Uri(url));
+                    ftpWebRequest.UsePassive = false;
+                    ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
+                    ftpWebRequest.Credentials = new NetworkCredential("neander", "5147");
+
+                    using (Stream requestStream = ftpWebRequest.GetRequestStream())
+                    {
+                        int bufferSize = 2048;
+                        int totalBytes = fileBytes.Length;
+                        int uploadBytes = 0;
+                        int bytesRead = 0;
+                        byte[] buffer = new byte[bufferSize];
+
+                        // progressbar1 setting
+                        progressBar1.Invoke(new MethodInvoker(delegate ()
+                        {
+                            progressBar1.Value = 0;
+                            progressBar1.Maximum = totalBytes;
+                        }));
+
+                        while (uploadBytes < totalBytes)
+                        {
+                            bytesRead = Math.Min(bufferSize, totalBytes - uploadBytes);
+                            requestStream.Write(fileBytes, uploadBytes, bytesRead);
+                            uploadBytes += bytesRead;
+
+                            backgroundWorker1.ReportProgress(uploadBytes);
+                        }
+
+                        progressBar2.Invoke(new MethodInvoker(delegate ()
+                        {
+                            progressBar2.Value += totalBytes;
+                        }));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("...error Message :\n" + ex.ToString());
+                }
+            }
         }
 
         private void backgroundWorker2_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-
+            progressBar1.Value = e.ProgressPercentage;
         }
 
         private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-
+            progressBar1.Value = progressBar1.Maximum;
         }
 
         private void NetworkCheck()
