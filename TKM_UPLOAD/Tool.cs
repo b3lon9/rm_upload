@@ -3,6 +3,7 @@ using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Security.Policy;
 using System.Windows.Forms;
 using TKM_UPLOAD.Data;
 using static TKM_UPLOAD.Data.Enum;
@@ -26,6 +27,9 @@ namespace TKM_UPLOAD
         private Color SelectedColor = Color.Tomato;
         private string Caption = "";
 
+        // Upload Info
+        private Info Info;
+
         public Tool()
         {
             InitializeComponent();
@@ -34,11 +38,18 @@ namespace TKM_UPLOAD
             mUploadFiles = new ArrayList();
             mUploadVerFiles = new ArrayList();
             btn_start.Enabled = DEBUG;
+
+            Info = new Info();
         }
 
         private void btn_urlsetting_Click(object sender, EventArgs e)
         {
             Config.ReadURL();
+
+            Info.ServerURL = "ftp://192.168.73.1/";
+            Info.Upload_FilePath = "test/";
+            Info.Login_ID = "neander";
+            Info.Login_PW = "5147";
         }
 
 
@@ -252,7 +263,7 @@ namespace TKM_UPLOAD
         {
             switch (result)
             {
-                case Result.실패: richTextBox1.SelectionColor = Color.Red;   break;
+                case Result.실패: richTextBox1.SelectionColor = Color.Red; break;
                 case Result.성공: richTextBox1.SelectionColor = Color.Green; break;
                 case Result.일반: richTextBox1.SelectionColor = Color.Black; break;
             }
@@ -300,19 +311,21 @@ namespace TKM_UPLOAD
             int count = 0;
             foreach (var file in mUploadFiles)
             {
+                Info.Upload_FileName = Path.GetFileName(file.ToString());
                 Console.WriteLine("file... : " + file);
                 byte[] fileBytes = File.ReadAllBytes(file.ToString());
+                string url = Info.ServerURL + Info.Upload_FilePath + Info.Upload_FileName;
 
                 // FTP
                 try
                 {
-                    string url = "ftp://192.168.73.1/test/" + Path.GetFileName(file.ToString());
+                    
                     Console.WriteLine($"{file.ToString()} : {url}");
 
                     FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(new Uri(url));
                     ftpWebRequest.UsePassive = false;
                     ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
-                    ftpWebRequest.Credentials = new NetworkCredential("neander", "5147");
+                    ftpWebRequest.Credentials = new NetworkCredential(Info.Login_ID, Info.Login_PW);
 
                     using (Stream requestStream = ftpWebRequest.GetRequestStream())
                     {
@@ -342,11 +355,15 @@ namespace TKM_UPLOAD
                         {
                             progressBar2.Value += totalBytes;
                         }));
+
+                        requestStream.Close();
                     }
+                    log_write($"{url}...OK", Result.성공);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("...error Message :\n" + ex.ToString());
+                    log_write($"{url}...Fail", Result.실패);
                 }
             }
         }
@@ -389,19 +406,20 @@ namespace TKM_UPLOAD
             int count = 0;
             foreach (var file in mUploadVerFiles)
             {
+                Info.Upload_FileName = Path.GetFileName(file.ToString());
                 Console.WriteLine("file... : " + file);
                 byte[] fileBytes = File.ReadAllBytes(file.ToString());
+                string url = Info.ServerURL + Info.Upload_FilePath + Info.Upload_FileName;
 
                 // FTP
                 try
                 {
-                    string url = "ftp://192.168.73.1/test/" + Path.GetFileName(file.ToString());
-                    Console.WriteLine($"{file.ToString()} : {url}");
+                    // UploadListener uploadListener = new UploadListener();
 
                     FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create(new Uri(url));
                     ftpWebRequest.UsePassive = false;
                     ftpWebRequest.Method = WebRequestMethods.Ftp.UploadFile;
-                    ftpWebRequest.Credentials = new NetworkCredential("neander", "5147");
+                    ftpWebRequest.Credentials = new NetworkCredential(Info.Login_ID, Info.Login_PW);
                     using (Stream requestStream = ftpWebRequest.GetRequestStream())
                     {
                         int bufferSize = 2048;
@@ -433,10 +451,11 @@ namespace TKM_UPLOAD
 
                         requestStream.Close();
                     }
+                    log_write($"{url}...OK", Result.성공);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("...error Message :\n" + ex.ToString());
+                    log_write($"{url}...Fail", Result.실패);
                 }
             }
         }
