@@ -518,6 +518,12 @@ namespace TKM_UPLOAD
         private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             progressBar1.Value = progressBar1.Maximum;
+
+            DialogResult result = MessageBox.Show("업로드가 완료되었습니다");
+            if (result == DialogResult.OK)
+            {
+                Close();
+            }
         }
 
         private void NetworkCheck()
