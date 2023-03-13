@@ -21,7 +21,7 @@ namespace TKM_UPLOAD
         private ArrayList mUploadVerFiles;
 
         private Button ServerTypeBtn = null;    // 서버선택
-        private Button CategoryBtn = null;    // 유형선택
+        private Button CategoryBtn   = null;    // 유형선택
 
         // UI
         private Color SelectedColor = Color.Tomato;
@@ -37,7 +37,7 @@ namespace TKM_UPLOAD
             // init instance
             mUploadFiles = new ArrayList();
             mUploadVerFiles = new ArrayList();
-            btn_start.Enabled = DEBUG;
+            // btn_start.Enabled = DEBUG;
 
             Info = new Info();
         }
@@ -47,9 +47,11 @@ namespace TKM_UPLOAD
             Config.ReadURL();
 
             Info.ServerURL = "ftp://192.168.73.1/";
-            Info.Upload_FilePath = "test/";
+            Info.Upload_FilePath = Server.FilePath.Normal;
             Info.Login_ID = "neander";
             Info.Login_PW = "5147";
+
+            log_write("URL, LoginInfo Setting... Complete!", Result.성공);
         }
 
 
@@ -180,7 +182,7 @@ namespace TKM_UPLOAD
         // Upload Ready Button
         private void ready_button_click(object sender, EventArgs e)
         {
-            NetworkCheck();
+            // NetworkCheck();
 
             if (mServerType == null)
             {
@@ -204,10 +206,17 @@ namespace TKM_UPLOAD
             }
             else
             {
-                DialogResult dialogResult = MessageBox.Show("업로드 준비가 완료되었습니다", Caption, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                DialogResult dialogResult = MessageBox.Show(Properties.Resources.MsgBoxSendReadyUploadComplete, Caption, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (dialogResult == DialogResult.OK)
                 {
+                    log_write(Properties.Resources.MsgBoxSendReadyUploadComplete, Result.성공);
+                    
                     foreach (var item in mUploadFiles)
+                    {
+                        Console.WriteLine(item);
+                    }
+
+                    foreach (var item in mUploadVerFiles)
                     {
                         Console.WriteLine(item);
                     }
@@ -227,11 +236,13 @@ namespace TKM_UPLOAD
             if (mUploadFiles != null && mUploadFiles.Count > 0)
             {
                 Console.WriteLine("File Upload...");
+                log_write("File Upload...");
                 backgroundWorker1.RunWorkerAsync();
             }
             else if (mUploadVerFiles != null && mUploadVerFiles.Count > 0)
             {
                 Console.WriteLine("VerFile Upload...");
+                log_write("VerFile Upload...");
                 backgroundWorker2.RunWorkerAsync();
             }
         }
@@ -314,6 +325,17 @@ namespace TKM_UPLOAD
                 Info.Upload_FileName = Path.GetFileName(file.ToString());
                 Console.WriteLine("file... : " + file);
                 byte[] fileBytes = File.ReadAllBytes(file.ToString());
+
+                // filepath check
+                if (Info.Upload_FileName.Contains(".apk"))
+                {
+                    Info.Upload_FilePath = Server.FilePath.APK;
+                }
+                else
+                {
+                    Info.Upload_FilePath = Server.FilePath.Normal;
+                }
+
                 string url = Info.ServerURL + Info.Upload_FilePath + Info.Upload_FileName;
 
                 // FTP
@@ -358,12 +380,22 @@ namespace TKM_UPLOAD
 
                         requestStream.Close();
                     }
-                    log_write($"{url}...OK", Result.성공);
+                    
+                    richTextBox1.Invoke(new MethodInvoker(delegate ()
+                    {
+                        log_write($"{url}...OK", Result.성공);
+                    }));
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("...error Message :\n" + ex.ToString());
-                    log_write($"{url}...Fail", Result.실패);
+                    richTextBox1.Invoke(new MethodInvoker(delegate ()
+                    {
+                        log_write($"{url}...Fail", Result.실패);
+                    }));
+
+                    // DialogResult dialogResult = MessageBox.Show(Properties.Resources.MsgBoxSendUploadFail, Caption, MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    // if (dialogResult == DialogResult.Cancel)
                 }
             }
         }
@@ -409,6 +441,17 @@ namespace TKM_UPLOAD
                 Info.Upload_FileName = Path.GetFileName(file.ToString());
                 Console.WriteLine("file... : " + file);
                 byte[] fileBytes = File.ReadAllBytes(file.ToString());
+                
+                // filepath check
+                if (Info.Upload_FileName.Contains("detail"))
+                {
+                    Info.Upload_FilePath = Server.FilePath.Detail; 
+                } 
+                else
+                {
+                    Info.Upload_FilePath = Server.FilePath.Ver;
+                }
+
                 string url = Info.ServerURL + Info.Upload_FilePath + Info.Upload_FileName;
 
                 // FTP
@@ -451,11 +494,18 @@ namespace TKM_UPLOAD
 
                         requestStream.Close();
                     }
-                    log_write($"{url}...OK", Result.성공);
+
+                    richTextBox1.Invoke(new MethodInvoker(delegate ()
+                    {
+                        log_write($"{url}...OK", Result.성공);
+                    }));
                 }
                 catch (Exception ex)
                 {
-                    log_write($"{url}...Fail", Result.실패);
+                    richTextBox1.Invoke(new MethodInvoker(delegate ()
+                    {
+                        log_write($"{url}...Fail", Result.실패);
+                    }));
                 }
             }
         }

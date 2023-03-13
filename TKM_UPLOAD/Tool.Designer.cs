@@ -293,6 +293,7 @@ namespace TKM_UPLOAD
             this.richTextBox1.TabIndex = 7;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
+            this.richTextBox1.DetectUrls = false;
             // 
             // Tool
             // 

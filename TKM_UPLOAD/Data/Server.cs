@@ -18,22 +18,27 @@ namespace TKM_UPLOAD.Data
         // version
         public class Type
         {
-            public static string TEST = "TEST/";
-            public static string BETA = "BETA/";
-            public static string REAL = "REAL/";
+            public static string TEST = "TEST";     // "http://test-URL/"
+            public static string BETA = "BETA";     // "http://beta-URL/"
+            public static string REAL = "REAL";     // "http://real_URL/"
         }
 
         // type
         public class Category
         {
-            public static string Program = "CON1/SystemFiles/tkm15/apk/";
-            public static string Image = "CON1/SystemFiles/tkm15/rsc/";
+            public static string Program = "Program";   // "temp/tkm15/apk/";
+            public static string Image = "Image";       // "temp/tkm15/rsc/";
         }
 
         // file
-        public class File
+        public class FilePath
         {
             public static string FileIni = "url.ini";
+            public static string Normal = "test/";
+            public static string APK = Normal + "app/";
+            public static string Detail = Normal + "detail/";
+            public static string Ver = Normal + "ver/";
+            public static string Image = Normal + "rsc/";
         }
     }
 }

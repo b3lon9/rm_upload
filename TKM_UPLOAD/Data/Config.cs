@@ -12,7 +12,7 @@ namespace TKM_UPLOAD.Data
     {
         public static void ReadURL()
         {
-            string iniFilePath = $"{Server.URL_INI}/{Server.File.FileIni}";
+            string iniFilePath = $"{Server.URL_INI}/{Server.FilePath.FileIni}";
 
             if (!File.Exists(iniFilePath))
             {
