@@ -44,7 +44,7 @@ namespace TKM_UPLOAD
 
         private void btn_urlsetting_Click(object sender, EventArgs e)
         {
-            Config.ReadURL();
+            Config.ReadURL(log_write);
 
             Info.ServerURL = "ftp://192.168.73.1/";
             Info.Upload_FilePath = Server.FilePath.Normal;

@@ -10,16 +10,23 @@ namespace TKM_UPLOAD.Data
 {
     public class Config
     {
-        public static void ReadURL()
+        public delegate void Log_Write(string message, Enum.Result result = Enum.Result.일반);
+
+        public static void ReadURL(Log_Write log_write)
         {
+            log_write("URL확인");
+
+            // ini 파일 경로
             string iniFilePath = $"{Server.URL_INI}/{Server.FilePath.FileIni}";
 
+            // ini 파일 유무 확인
             if (!File.Exists(iniFilePath))
             {
                 if (!Directory.Exists(Server.URL_INI))
                 {
                     Directory.CreateDirectory(Server.URL_INI);
                     Console.WriteLine("create directory ! " + Server.URL_INI);
+                    log_write($"Create Directory : {Server.URL_INI}");
                 }
 
                 IniFile ini = new IniFile(iniFilePath);
@@ -49,6 +56,7 @@ namespace TKM_UPLOAD.Data
             }
         }
 
+        // ini파일 설계서
         private class IniFile
         {
             private string iniFilePath = "";
